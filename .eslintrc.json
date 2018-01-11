@@ -1,0 +1,23 @@
+{
+    "extends": "airbnb",
+    "rules": {
+        "semi": 2,
+        "no-console": 0,
+        "import/no-extraneous-dependencies": [
+            "error", {
+                "depevDependencies": true
+            }
+        ]
+    },
+    "globals": {
+        "describe": true,
+        "it": true,
+        "expect": true,
+        "server": true,
+        "request": true,
+        "beforeEach": true,
+        "td": true,
+        "Joi": true,
+        "joiAssert": true 
+    } 
+}
