@@ -2,6 +2,7 @@ import UserController from '../controllers/user';
 
 export default (server) => {
   const userController = new UserController(server.datasource.models.Users);
+  const auth = server.auth.authenticate();
 
   const createUser = (req, res) => {
     userController.createUser(req.body)
@@ -43,8 +44,8 @@ export default (server) => {
   };
 
   server.post('/users', createUser);
-  server.get('/users', allUsers);
-  server.get('/user/:id', getUser);
-  server.put('/user/:id', updateUser);
-  server.del('/user/:id', deleteUser);
+  server.get('/users', auth, allUsers);
+  server.get('/user/:id', auth, getUser);
+  server.put('/user/:id', auth, updateUser);
+  server.del('/user/:id', auth, deleteUser);
 };

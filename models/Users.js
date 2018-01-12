@@ -39,8 +39,8 @@ export default (sequelize, DataType) => {
           user.set('password', bcrypt.hashSync(user.password, salt));
         },
       },
-    }
-);
+    },
+  );
 
   return Users;
 };

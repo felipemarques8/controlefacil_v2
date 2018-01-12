@@ -1,16 +1,22 @@
+import jwt from 'jwt-simple';
+
 describe('Routes Users', () => {
   const User = server.datasource.models.Users;
+  const jwtSecrets = server.config.jwtSecret;
   const defaultUsers = {
     id: 1,
     name: 'Default User',
     email: 'lipemarques8@gmail.com',
     password: 'felipe123@',
   };
+
+  let token;
   beforeEach((done) => {
     User
       .destroy({ where: {} })
       .then(() => User.create(defaultUsers))
-      .then(() => {
+      .then((user) => {
+        token = jwt.encode({ id: user.id }, jwtSecrets);
         done();
       });
   });
@@ -27,6 +33,7 @@ describe('Routes Users', () => {
       }));
       request
         .get('/users')
+        .set('Authorization', `bearer ${token}`)
         .end((err, res) => {
           joiAssert(res.body, usersList);
           done(err);
@@ -46,6 +53,7 @@ describe('Routes Users', () => {
       });
       request
         .get('/user/1')
+        .set('Authorization', `bearer ${token}`)
         .end((err, res) => {
           joiAssert(res.body, user);
           done(err);
@@ -94,6 +102,7 @@ describe('Routes Users', () => {
 
       request
         .put('/user/1')
+        .set('Authorization', `bearer ${token}`)
         .send(updateUser)
         .end((err, res) => {
           joiAssert(res.body, updatedCount);
@@ -106,6 +115,7 @@ describe('Routes Users', () => {
     it('should delete a users', (done) => {
       request
         .delete('/user/1')
+        .set('Authorization', `bearer ${token}`)
         .end((err, res) => {
           expect(res.statusCode).to.be.eql(204);
           done(err);

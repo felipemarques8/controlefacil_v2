@@ -25,6 +25,6 @@ export default (server) => {
 
   return {
     initialize: () => passport.initialize(),
-    authenticate: () => passport.authenticate('jwt', server.config.jwtSecret),
+    authenticate: () => passport.authenticate('jwt', server.config.jwtSession),
   };
 };
